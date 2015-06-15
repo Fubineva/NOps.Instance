@@ -5,9 +5,17 @@ using System.Xml.Serialization;
 
 namespace Fubineva.NOps.Instance
 {
-    public abstract class Config
+    public abstract class InstanceConfig
     {
-        public static T Load<T>(string filePathName) where T : Config
+        public static T Load<T>() where T: InstanceConfig
+        {
+            var filePathName = InstanceRegistry.GetConfigFilePathName();
+            var config = Load<T>(filePathName);
+
+            return config;
+        }
+
+        public static T Load<T>(string filePathName) where T : InstanceConfig
         {
             T config;
             using (var fileStream = new FileStream(filePathName, FileMode.Open, FileAccess.Read, FileShare.Read))

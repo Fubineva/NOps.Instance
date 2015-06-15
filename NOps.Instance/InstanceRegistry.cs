@@ -70,12 +70,22 @@ namespace Fubineva.NOps.Instance
 
         public void Save()
         {
+            if (string.IsNullOrEmpty(FilePathName))
+            {
+                throw new ApplicationException("No FilePathName set, set one of pass a filePathName explicitly.");
+            }
+
+            Save(FilePathName);
+        }
+
+        public void Save(string filePathName)
+        {
             var xmlWriterSettings = new XmlWriterSettings
             {
                 Indent = true,
             };
 
-            using (var fileStream = new FileStream(FilePathName, FileMode.Create, FileAccess.Write, FileShare.None))
+            using (var fileStream = new FileStream(filePathName, FileMode.Create, FileAccess.Write, FileShare.None))
             using (var writer = XmlWriter.Create(fileStream, xmlWriterSettings))
             {
                 var serializer = new XmlSerializer(typeof(InstanceRegistry));

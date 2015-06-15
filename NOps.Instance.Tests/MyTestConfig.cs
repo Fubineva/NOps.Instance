@@ -2,7 +2,7 @@
 
 namespace NOps.Instance.Tests
 {
-    public class MyTestConfig : Config
+    public class MyTestConfig : InstanceConfig
     {
         public string MyStringValue;
 
