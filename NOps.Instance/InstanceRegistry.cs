@@ -197,6 +197,12 @@ namespace Fubineva.NOps.Instance
             }
 
             var filePathName = instanceConfig.Config;
+
+            if (!Path.IsPathRooted(filePathName))
+            {
+                filePathName = Path.Combine(Path.GetDirectoryName(Current.FilePathName), filePathName);
+            }
+            
             return filePathName;
         }
     }
