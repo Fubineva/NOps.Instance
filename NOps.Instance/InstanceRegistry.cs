@@ -130,5 +130,16 @@ namespace Fubineva.NOps.Instance
             this.Add(instance);
         }
 
+        public static string GetConfigFilePathName()
+        {
+            var instanceConfig = Current.GetBySiteName(HostingEnvironment.SiteName);
+            if (instanceConfig == null)
+            {
+                throw new ApplicationException("Can't find instance configuration for site " + HostingEnvironment.SiteName);
+            }
+
+            var filePathName = instanceConfig.Config;
+            return filePathName;
+        }
     }
 }
