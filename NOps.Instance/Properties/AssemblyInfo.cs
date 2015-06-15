@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("NOps.Instance")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Tooling to support multiple instances of an application install and their configuration.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Fubineva")]
 [assembly: AssemblyProduct("NOps.Instance")]
