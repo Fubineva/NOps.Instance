@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading;
 using System.Web.Hosting;
 using System.Xml;
@@ -17,7 +18,7 @@ namespace Fubineva.NOps.Instance
 
         private static string DetermineFilePathName()
         {
-            var filePathName = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"..\..", "InstanceRegistry.cfg");
+            var filePathName = Path.Combine(ApplicationPhysicalPath(), @"..\..", "InstanceRegistry.cfg");
 
             if (File.Exists(filePathName))
             {
@@ -28,10 +29,22 @@ namespace Fubineva.NOps.Instance
 
             if (!File.Exists(filePathName))
             {
-                throw new FileNotFoundException("Can't find InstanceRegistry.cfg");
+                throw new FileNotFoundException("Can't find InstanceRegistry.cfg on path: " + Path.GetFullPath(Path.GetDirectoryName(filePathName)));
             }
 
             return filePathName;
+        }
+
+        private static string ApplicationPhysicalPath()
+        {
+            var path = HostingEnvironment.ApplicationPhysicalPath;
+
+            if (path == null)
+            {
+                return Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+            }
+
+            return path;
         }
 
         [XmlIgnore]
@@ -145,7 +158,7 @@ namespace Fubineva.NOps.Instance
             var instanceConfig = Current.GetBySiteName(HostingEnvironment.SiteName);
             if (instanceConfig == null)
             {
-                throw new ApplicationException("Can't find instance configuration for site " + HostingEnvironment.SiteName);
+                throw new ApplicationException("Can't find instance configuration for site: " + HostingEnvironment.SiteName);
             }
 
             var filePathName = instanceConfig.Config;
