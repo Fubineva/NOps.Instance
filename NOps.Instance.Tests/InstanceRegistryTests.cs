@@ -25,10 +25,11 @@ namespace NOps.Instance.Tests
             {
                 var result = InstanceRegistry.Current;
             }
-            catch (Exception ex)
+            catch (FileNotFoundException ex)
             {
                 var expectedPathString = Path.GetFullPath(Path.Combine(GetAppDir(), "..\\..\\.."));
-                Assert.That(ex.Message.Contains(expectedPathString), "Expected a path in the exception message: " + ex.Message);
+                
+                Assert.That(ex.FileName.Contains(expectedPathString), "Expected on the exception: " + ex.FileName);
                 return;
             }
 

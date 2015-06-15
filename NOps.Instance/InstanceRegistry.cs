@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,21 +19,50 @@ namespace Fubineva.NOps.Instance
 
         private static string DetermineFilePathName()
         {
-            var filePathName = Path.Combine(ApplicationPhysicalPath(), @"..\..", "InstanceRegistry.cfg");
+            var applicationPhysicalPath = ApplicationPhysicalPath();
 
-            if (File.Exists(filePathName))
+            var filePathName = SeekFile(applicationPhysicalPath, "InstanceRegistry.cfg");
+
+            if (filePathName == null)
             {
-                return filePathName;
-            }
-
-            //filePathName = Path.Combine(HostingEnvironment.ApplicationPhysicalPath, @"..\..\..", "InstanceRegistry.cfg");
-
-            if (!File.Exists(filePathName))
-            {
-                throw new FileNotFoundException("Can't find InstanceRegistry.cfg on path: " + Path.GetFullPath(Path.GetDirectoryName(filePathName)));
+                throw new FileNotFoundException("Can't find InstanceRegistry.cfg on path.", applicationPhysicalPath);
             }
 
             return filePathName;
+        }
+
+        private static string SeekFile(string startPath, string fileName)
+        {
+            foreach (var dir in Directories(startPath))
+            {
+                var candidate = Path.Combine(dir, fileName);
+                if (File.Exists(candidate))
+                {
+                    return candidate;
+                }
+            }
+
+            return null;
+        }
+
+        private static IEnumerable<string> Directories(string dir)
+        {
+            while (dir != null)
+            {
+                yield return dir;
+                var parent = GetParentDirectory(dir);
+                // when we get to the root drive it keeps returning the same root drive
+                if (dir == parent)
+                {
+                    yield break;
+                }
+                dir = parent;
+            }
+        }
+
+        private static string GetParentDirectory(string dir)
+        {
+            return Path.GetFullPath(Path.Combine(dir, ".."));
         }
 
         private static string ApplicationPhysicalPath()
@@ -136,6 +166,11 @@ namespace Fubineva.NOps.Instance
                 this.SingleOrDefault(i => string.Equals(i.Name, instanceName, StringComparison.OrdinalIgnoreCase));
 
             return currentInstance;
+        }
+
+        public bool Exists(string instanceName)
+        {
+            return this.Any(i => string.Equals(i.Name, instanceName, StringComparison.OrdinalIgnoreCase));
         }
 
         public InstanceEntry GetBySiteName(string siteName)

@@ -59,7 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NOps.Instance\NOps.Instance.csproj">
-      <Project>{62825B7F-9365-4E46-992A-06C6C4871EFA}</Project>
+      <Project>{62825b7f-9365-4e46-992a-06c6c4871efa}</Project>
       <Name>NOps.Instance</Name>
     </ProjectReference>
   </ItemGroup>
