@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -44,6 +45,11 @@ namespace Fubineva.NOps.Instance
         
         public void Save()
         {
+            if (string.IsNullOrEmpty(FilePathName))
+            {
+                throw new ApplicationException("This configuration has no FilePathName set, please set it or specify one explicitly.");
+            }
+
             Save(FilePathName);
         }
     }
