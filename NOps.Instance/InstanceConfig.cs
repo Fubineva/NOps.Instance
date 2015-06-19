@@ -7,9 +7,9 @@ namespace Fubineva.NOps.Instance
 {
     public abstract class InstanceConfig
     {
-        public static T Load<T>() where T: InstanceConfig
+        public static T LoadSiteConfig<T>(string siteName) where T: InstanceConfig
         {
-            var filePathName = InstanceRegistry.GetConfigFilePathName();
+            var filePathName = InstanceRegistry.GetSiteConfigFilePathName(siteName);
             var config = Load<T>(filePathName);
 
             return config;

@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Web.Hosting;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -67,14 +65,7 @@ namespace Fubineva.NOps.Instance
 
         private static string ApplicationPhysicalPath()
         {
-            var path = HostingEnvironment.ApplicationPhysicalPath;
-
-            if (path == null)
-            {
-                return Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
-            }
-
-            return path;
+            return Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
         }
 
         [XmlIgnore]
@@ -188,12 +179,12 @@ namespace Fubineva.NOps.Instance
             this.Add(instance);
         }
 
-        public static string GetConfigFilePathName()
+        public static string GetSiteConfigFilePathName(string siteName)
         {
-            var instanceConfig = Current.GetBySiteName(HostingEnvironment.SiteName);
+            var instanceConfig = Current.GetBySiteName(siteName);
             if (instanceConfig == null)
             {
-                throw new ApplicationException("Can't find instance configuration for site: " + HostingEnvironment.SiteName);
+                throw new ApplicationException("Can't find instance configuration for site: " + siteName);
             }
 
             var filePathName = instanceConfig.Config;
