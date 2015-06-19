@@ -196,5 +196,45 @@ namespace Fubineva.NOps.Instance
             
             return filePathName;
         }
+
+        public static void Create<TCfg>(string instanceName, string siteName) where TCfg : InstanceConfig, new()
+        {
+            var instanceRegistry = Current;
+
+            if (instanceRegistry.Exists(instanceName))
+            {
+                throw new Exception(string.Format("Instance name '{0}' already in use. Can't create it.", instanceName));
+            }
+
+            var configBaseDir = Path.GetDirectoryName(instanceRegistry.FilePathName);
+
+            var instanceEntry = CreateInstance<TCfg>(instanceName, siteName, configBaseDir);
+
+            instanceRegistry.Add(instanceEntry);
+            instanceRegistry.Save();
+        }
+
+        private static InstanceEntry CreateInstance<TCfg>(string instanceName, string siteName, string configBaseDir) where TCfg : InstanceConfig, new()
+        {
+            var instanceDir = CreateInstanceDirectory(instanceName, configBaseDir);
+
+            const string instance_cfg_file_name = "Instance.cfg";
+
+            var relativeConfigFilePathName = Path.Combine(instanceName, instance_cfg_file_name);
+
+            var instanceEntry = new InstanceEntry(instanceName, siteName, relativeConfigFilePathName, "0.1");
+
+            var cfg = new TCfg();
+            cfg.Save(Path.Combine(instanceDir, instance_cfg_file_name));
+
+            return instanceEntry;
+        }
+
+        private static string CreateInstanceDirectory(string instanceName, string configBaseDir)
+        {
+            var instanceDir = Path.Combine(configBaseDir, instanceName);
+            Directory.CreateDirectory(instanceDir);
+            return instanceDir;
+        }
     }
 }
