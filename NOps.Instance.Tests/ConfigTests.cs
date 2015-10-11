@@ -47,7 +47,7 @@ namespace NOps.Instance.Tests
             // assert
             Assert.IsTrue(File.Exists(_testFilePathName));
 
-            var loadedCfg = InstanceConfig.Load<MyTestConfig>(_testFilePathName);
+            var loadedCfg = Config.Load<MyTestConfig>(_testFilePathName);
             Assert.AreEqual(cfg.MyStringValue, loadedCfg.MyStringValue);
             Assert.AreEqual(cfg.MyNumbericValue, loadedCfg.MyNumbericValue);
             Assert.AreEqual(cfg.NestedConfig.NestedValue, loadedCfg.NestedConfig.NestedValue);
@@ -74,7 +74,7 @@ namespace NOps.Instance.Tests
             cfg.Save(_testFilePathName);
 
             // act
-            var loadedCfg = InstanceConfig.Load<MyTestConfig>(_testFilePathName);
+            var loadedCfg = Config.Load<MyTestConfig>(_testFilePathName);
 
             // assert
             Assert.AreEqual(_testFilePathName, loadedCfg.FilePathName);
@@ -86,7 +86,7 @@ namespace NOps.Instance.Tests
             // arrange
             var cfg = new MyTestConfig();
             cfg.Save(_testFilePathName);
-            var loadedCfg = InstanceConfig.Load<MyTestConfig>(_testFilePathName);
+            var loadedCfg = Config.Load<MyTestConfig>(_testFilePathName);
             
             // act
             loadedCfg.Save();
