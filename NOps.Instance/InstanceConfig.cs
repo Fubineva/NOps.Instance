@@ -1,3 +1,4 @@
+using System;
 using System.Xml.Serialization;
 
 namespace Fubineva.NOps.Instance
@@ -8,8 +9,9 @@ namespace Fubineva.NOps.Instance
 		{
 			var entry = InstanceRegistry.Current.GetBySiteName(siteName);
 			
-			var config = Load<T>(entry.Config);
+			if (entry == null) throw new Exception($"Can't find an instance for site {siteName}.");
 
+			var config = Load<T>(entry.Config);
 			config.Instance = entry;
 
 			return config;

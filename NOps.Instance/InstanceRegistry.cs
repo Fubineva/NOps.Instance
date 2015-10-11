@@ -202,7 +202,7 @@ namespace Fubineva.NOps.Instance
 
 			if (instanceRegistry.Exists(instanceName))
 			{
-				throw new Exception(string.Format("Instance name '{0}' already in use. Can't create it.", instanceName));
+				throw new Exception($"Instance name '{instanceName}' already in use. Can't create it.");
 			}
 
 			var configBaseDir = Path.GetDirectoryName(instanceRegistry.FilePathName);
