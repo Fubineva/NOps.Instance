@@ -7,20 +7,29 @@ namespace Fubineva.NOps.Instance
 {
     public abstract class Config
     {
-        public static T Load<T>(string filePathName) where T : InstanceConfig
+        // ToDo: make this baseclass optional
+        public static T Load<T>(string filePathName) where T : Config
         {
             T config;
             using (var fileStream = new FileStream(filePathName, FileMode.Open, FileAccess.Read, FileShare.Read))
-            using (var configReader = XmlReader.Create(fileStream))
+            {
+                config = Load<T>(fileStream);
+            }
+            config.FilePathName = filePathName;
+            return config;
+        }
+
+        public static T Load<T>(Stream stream) where T : Config
+        {
+            T config;
+            using (var configReader = XmlReader.Create(stream))
             {
                 var deserializer = new XmlSerializer(typeof(T));
                 config = (T)deserializer.Deserialize(configReader);
 
                 configReader.Close();
-                fileStream.Close();
+                stream.Close();
             }
-
-            config.FilePathName = filePathName;
 
             return config;
         }

@@ -91,7 +91,7 @@ namespace Fubineva.NOps.Instance
 				catch (XmlException ex)
 				{
 
-					throw new Exception(string.Format("The instances configuration file {0} contains invalid Xml.", filePathName), ex);
+					throw new Exception($"The instances configuration file {filePathName} contains invalid Xml.", ex);
 				}
 
 				configReader.Close();
