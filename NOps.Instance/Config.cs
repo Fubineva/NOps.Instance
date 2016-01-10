@@ -40,8 +40,9 @@ namespace Fubineva.NOps.Instance
             using (var fileStream = new FileStream(filePathName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
                 config = LoadLegacyXml<T>(fileStream);
-                fileStream.Close();
+                config.FilePathName = filePathName;
 
+                fileStream.Close();
                 config.Save(filePathName);
             }
             return config;
