@@ -1,25 +1,64 @@
 using System;
 using System.IO;
+using System.Runtime.Serialization;
 using System.Xml;
 using System.Xml.Serialization;
+
+using Newtonsoft.Json;
+
+using Formatting = Newtonsoft.Json.Formatting;
 
 namespace Fubineva.NOps.Instance
 {
     public abstract class Config
     {
+        private static readonly JsonSerializerSettings s_serializerSettings = new JsonSerializerSettings()
+            {
+                Formatting = Formatting.Indented,
+                NullValueHandling = NullValueHandling.Include
+            };
+
         // ToDo: make this baseclass optional
         public static T Load<T>(string filePathName) where T : Config
         {
             T config;
             using (var fileStream = new FileStream(filePathName, FileMode.Open, FileAccess.Read, FileShare.Read))
             {
-                config = Load<T>(fileStream);
+
+                try
+                {
+                    config = Load<T>(fileStream);
+                    config.FilePathName = filePathName;
+                    return config;
+                }
+                catch (JsonReaderException)
+                {
+                    // if we fail loading the file, attempt loading it as XML then save it back as json.
+                }
             }
-            config.FilePathName = filePathName;
+
+            using (var fileStream = new FileStream(filePathName, FileMode.Open, FileAccess.Read, FileShare.Read))
+            {
+                config = LoadLegacyXml<T>(fileStream);
+                fileStream.Close();
+
+                config.Save(filePathName);
+            }
             return config;
         }
 
         public static T Load<T>(Stream stream) where T : Config
+        {
+            using (var textReader = new StreamReader(stream))
+            using (var reader = new JsonTextReader(textReader))
+            {
+                var deserializer = JsonSerializer.CreateDefault();
+                return deserializer.Deserialize<T>(reader);
+            }
+        }
+
+        [Obsolete]
+        private static T LoadLegacyXml<T>(Stream stream) where T : Config
         {
             T config;
             using (var configReader = XmlReader.Create(stream))
@@ -30,28 +69,23 @@ namespace Fubineva.NOps.Instance
                 configReader.Close();
                 stream.Close();
             }
-
             return config;
         }
 
-        [XmlIgnore]
-        public string FilePathName { get; set; }
+        [IgnoreDataMember]
+        [XmlIgnore] // ToDo: remove this along side the LegacyXml feature
+        public string FilePathName { get; private set; }
 
         public void Save(string filePathName)
         {
-            var xmlWriterSettings = new XmlWriterSettings
+            var serializer = JsonSerializer.Create(s_serializerSettings);
+            using (var stream = new FileStream(filePathName, FileMode.Create))
+            using(var writer = new StreamWriter(stream))
             {
-                Indent = true,
-            };
-
-            using (var fileStream = new FileStream(filePathName, FileMode.Create, FileAccess.Write, FileShare.None))
-            using (var writer = XmlWriter.Create(fileStream, xmlWriterSettings))
-            {
-                var serializer = new XmlSerializer(GetType());
                 serializer.Serialize(writer, this);
             }
         }
-
+        
         public void Save()
         {
             if (string.IsNullOrEmpty(FilePathName))

@@ -129,28 +129,7 @@ namespace Fubineva.NOps.Instance
 				fileStream.Close();
 			}
 		}
-
-		public string InstanceConfigAbsoluteFilePathName(InstanceEntry currentInstance)
-		{
-			var instanceConfigFilePathName = currentInstance.Config;
-
-			if (!Path.IsPathRooted(instanceConfigFilePathName))
-			{
-				instanceConfigFilePathName = Path.Combine(Path.GetDirectoryName(FilePathName), instanceConfigFilePathName);
-			}
-			return instanceConfigFilePathName;
-		}
-
-		public InstanceEntry ResolveInstance(string instanceOrSiteName)
-		{
-			var currentInstance = Get(instanceOrSiteName) ?? GetBySiteName(instanceOrSiteName);
-			if (currentInstance == null)
-			{
-				throw new Exception("Can't resolve instance configuration for application " + instanceOrSiteName);
-			}
-			return currentInstance;
-		}
-
+		
 		public InstanceEntry Get(string instanceName)
 		{
 			var currentInstance =

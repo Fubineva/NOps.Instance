@@ -20,7 +20,7 @@ namespace NOps.Instance.Tests
         [SetUp]
         public void Setup()
         {
-            _testFilePathName = Path.Combine(GetAppDir(), "testfile.cfg");
+            _testFilePathName = Path.Combine(TestHelpers.GetAppDir(), "testfile.cfg");
             if (File.Exists(_testFilePathName))
             {
                 File.Delete(_testFilePathName);
@@ -93,12 +93,6 @@ namespace NOps.Instance.Tests
 
             // assert
             Assert.Pass();
-        }
-
-        private static string GetAppDir()
-        {
-            var appPath = Assembly.GetExecutingAssembly().Location;
-            return Path.GetDirectoryName(appPath);
         }
     }
 

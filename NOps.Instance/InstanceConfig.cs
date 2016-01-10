@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace Fubineva.NOps.Instance
@@ -36,7 +37,8 @@ namespace Fubineva.NOps.Instance
 			return config;
 		}
 
-		[XmlIgnore]
+		[XmlIgnore] // ToDo: remove this along side the LegacyXml feature
+		[IgnoreDataMember]
 		public InstanceEntry Instance { get; private set; }
 	}
 }
