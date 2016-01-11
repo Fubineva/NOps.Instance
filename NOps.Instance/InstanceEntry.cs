@@ -3,7 +3,7 @@ using System.Xml.Serialization;
 
 namespace Fubineva.NOps.Instance
 {
-    [XmlRoot("InstanceEntry")]
+    [XmlRoot("InstanceEntry")] // ToDo: Remove these attributes when removing the legacyXml option
     public class InstanceEntry
     {
         private InstanceEntry()

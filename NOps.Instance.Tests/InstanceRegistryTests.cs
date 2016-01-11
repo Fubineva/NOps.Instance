@@ -38,6 +38,28 @@ namespace NOps.Instance.Tests
             Assert.Fail("Expected an exception.");
         }
 
+        [Test]
+        public void Persist()
+        {
+            // arrange
+            var cfgFilePathName = Path.Combine(GetAppDir(), "InstanceRegistryPersistanceTest.cfg");
+            var instanceRegistry = new InstanceRegistry
+                {
+                    {
+                        "test", "some sitename", "some config path", "some version"
+                    },
+                    new InstanceEntry("test2", "some sitename", "some config path", "some version")
+                };
+
+            // act
+            instanceRegistry.Save(cfgFilePathName);
+            var result = InstanceRegistry.Load(cfgFilePathName);
+
+            // assert
+            Assert.AreEqual("test", result[0].Name);
+            Assert.AreEqual("test2", result[1].Name);
+        }
+
         private static string GetAppDir()
         {
             var dir = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;

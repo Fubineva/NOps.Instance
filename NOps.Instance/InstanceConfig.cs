@@ -36,7 +36,7 @@ namespace Fubineva.NOps.Instance
 
 			return config;
 		}
-
+		
 		[XmlIgnore] // ToDo: remove this along side the LegacyXml feature
 		[IgnoreDataMember]
 		public InstanceEntry Instance { get; private set; }

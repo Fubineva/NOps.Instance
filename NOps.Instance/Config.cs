@@ -15,8 +15,9 @@ namespace Fubineva.NOps.Instance
         private static readonly JsonSerializerSettings s_serializerSettings = new JsonSerializerSettings()
             {
                 Formatting = Formatting.Indented,
-                NullValueHandling = NullValueHandling.Include
-            };
+                NullValueHandling = NullValueHandling.Include,
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor
+        };
 
         // ToDo: make this baseclass optional
         public static T Load<T>(string filePathName) where T : Config
@@ -53,7 +54,7 @@ namespace Fubineva.NOps.Instance
             using (var textReader = new StreamReader(stream))
             using (var reader = new JsonTextReader(textReader))
             {
-                var deserializer = JsonSerializer.CreateDefault();
+                var deserializer = JsonSerializer.Create(s_serializerSettings);
                 return deserializer.Deserialize<T>(reader);
             }
         }
@@ -75,7 +76,7 @@ namespace Fubineva.NOps.Instance
 
         [IgnoreDataMember]
         [XmlIgnore] // ToDo: remove this along side the LegacyXml feature
-        public string FilePathName { get; private set; }
+        public string FilePathName { get; protected set; }
 
         public void Save(string filePathName)
         {

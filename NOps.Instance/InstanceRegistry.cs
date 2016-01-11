@@ -1,19 +1,21 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Xml;
 using System.Xml.Serialization;
 
 namespace Fubineva.NOps.Instance
 {
 	[XmlRoot("InstanceRegistry")]
-	public class InstanceRegistry : List<InstanceEntry>
+	public class InstanceRegistry : Config, IList<InstanceEntry>
 	{
 		private static Lazy<InstanceRegistry> s_current
-			= new Lazy<InstanceRegistry>(() => Load(DetermineFilePathName()), LazyThreadSafetyMode.ExecutionAndPublication);
+			= new Lazy<InstanceRegistry>(() => Config.Load<InstanceRegistry>(DetermineFilePathName()), LazyThreadSafetyMode.ExecutionAndPublication);
+
+		private IList<InstanceEntry> _entries = new List<InstanceEntry>();
 
 		private static string DetermineFilePathName()
 		{
@@ -43,6 +45,11 @@ namespace Fubineva.NOps.Instance
 			return null;
 		}
 
+	    public static InstanceRegistry Load(string filePathName)
+	    {
+	        return Config.Load<InstanceRegistry>(filePathName);
+	    }
+
 		private static IEnumerable<string> Directories(string dir)
 		{
 			while (dir != null)
@@ -67,67 +74,11 @@ namespace Fubineva.NOps.Instance
 		{
 			return Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
 		}
-
-		[XmlIgnore]
-		public string FilePathName { get; set; }
-
+		
 		public static InstanceRegistry Current
 		{
 			get { return s_current.Value; }
 			set { s_current = new Lazy<InstanceRegistry>(() => value); }
-		}
-
-		public static InstanceRegistry Load(string filePathName)
-		{
-			InstanceRegistry instanceRegistry;
-			using (var fileStream = new FileStream(filePathName, FileMode.Open, FileAccess.Read, FileShare.Read))
-			using (var configReader = XmlReader.Create(fileStream))
-			{
-				var deserializer = new XmlSerializer(typeof(InstanceRegistry));
-				try
-				{
-					instanceRegistry = (InstanceRegistry)deserializer.Deserialize(configReader);
-				}
-				catch (XmlException ex)
-				{
-
-					throw new Exception($"The instances configuration file {filePathName} contains invalid Xml.", ex);
-				}
-
-				configReader.Close();
-				fileStream.Close();
-			}
-
-			instanceRegistry.FilePathName = filePathName;
-			return instanceRegistry;
-		}
-
-		public void Save()
-		{
-			if (string.IsNullOrEmpty(FilePathName))
-			{
-				throw new ApplicationException("No FilePathName set, set one of pass a filePathName explicitly.");
-			}
-
-			Save(FilePathName);
-		}
-
-		public void Save(string filePathName)
-		{
-			var xmlWriterSettings = new XmlWriterSettings
-			{
-				Indent = true,
-			};
-
-			using (var fileStream = new FileStream(filePathName, FileMode.Create, FileAccess.Write, FileShare.None))
-			using (var writer = XmlWriter.Create(fileStream, xmlWriterSettings))
-			{
-				var serializer = new XmlSerializer(typeof(InstanceRegistry));
-				serializer.Serialize(writer, this);
-				writer.Flush();
-				writer.Close();
-				fileStream.Close();
-			}
 		}
 		
 		public InstanceEntry Get(string instanceName)
@@ -213,6 +164,66 @@ namespace Fubineva.NOps.Instance
 			var instanceDir = Path.Combine(configBaseDir, instanceName);
 			Directory.CreateDirectory(instanceDir);
 			return instanceDir;
+		}
+
+		public IEnumerator<InstanceEntry> GetEnumerator()
+		{
+			return _entries.GetEnumerator();
+		}
+
+		IEnumerator IEnumerable.GetEnumerator()
+		{
+			return ((IEnumerable)_entries).GetEnumerator();
+		}
+
+		public void Add(InstanceEntry item)
+		{
+			_entries.Add(item);
+		}
+
+		public void Clear()
+		{
+			_entries.Clear();
+		}
+
+		public bool Contains(InstanceEntry item)
+		{
+			return _entries.Contains(item);
+		}
+
+		public void CopyTo(InstanceEntry[] array, int arrayIndex)
+		{
+			_entries.CopyTo(array, arrayIndex);
+		}
+
+		public bool Remove(InstanceEntry item)
+		{
+			return _entries.Remove(item);
+		}
+
+		public int Count => _entries.Count;
+
+		public bool IsReadOnly => _entries.IsReadOnly;
+
+		public int IndexOf(InstanceEntry item)
+		{
+			return _entries.IndexOf(item);
+		}
+
+		public void Insert(int index, InstanceEntry item)
+		{
+			_entries.Insert(index, item);
+		}
+
+		public void RemoveAt(int index)
+		{
+			_entries.RemoveAt(index);
+		}
+
+		public InstanceEntry this[int index]
+		{
+			get { return _entries[index]; }
+			set { _entries[index] = value; }
 		}
 	}
 }
