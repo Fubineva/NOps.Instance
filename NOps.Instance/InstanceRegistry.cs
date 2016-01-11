@@ -9,6 +9,8 @@ using System.Xml.Serialization;
 
 namespace Fubineva.NOps.Instance
 {
+	// ToDo: Inherit from HashSet and use IConfig + ConfigLoader (see Migrator registry as example)
+
 	[XmlRoot("InstanceRegistry")]
 	public class InstanceRegistry : Config, IList<InstanceEntry>
 	{

@@ -6,8 +6,6 @@ namespace Fubineva.NOps.Instance
 {
 	public abstract class InstanceConfig : Config
 	{
-		// ToDo: make this baseclass optional
-
 		public static T LoadSiteConfig<T>(string siteName) where T: InstanceConfig
 		{
 			var entry = InstanceRegistry.Current.GetBySiteName(siteName);

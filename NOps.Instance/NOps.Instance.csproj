@@ -46,6 +46,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Config.cs" />
+    <Compile Include="ConfigLoader.cs" />
+    <Compile Include="IConfig.cs" />
+    <Compile Include="IConfigLoader.cs" />
     <Compile Include="InstanceConfig.cs" />
     <Compile Include="InstanceEntry.cs" />
     <Compile Include="InstanceRegistry.cs" />
