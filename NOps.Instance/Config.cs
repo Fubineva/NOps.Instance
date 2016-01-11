@@ -24,7 +24,7 @@ namespace Fubineva.NOps.Instance
         
         [IgnoreDataMember]
         [XmlIgnore] // ToDo: remove this along side the LegacyXml feature
-        public string FilePathName { get; private set; }
+        public string FilePathName { get; set; }
 
         public void Save(string filePathName)
         {
