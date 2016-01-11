@@ -45,10 +45,10 @@ namespace Fubineva.NOps.Instance
 			return null;
 		}
 
-	    public static InstanceRegistry Load(string filePathName)
-	    {
-	        return Config.Load<InstanceRegistry>(filePathName);
-	    }
+		public static InstanceRegistry Load(string filePathName)
+		{
+			return Config.Load<InstanceRegistry>(filePathName);
+		}
 
 		private static IEnumerable<string> Directories(string dir)
 		{
@@ -145,16 +145,17 @@ namespace Fubineva.NOps.Instance
 
 		private static InstanceEntry CreateInstance<TCfg>(string instanceName, string siteName, string configBaseDir) where TCfg : InstanceConfig, new()
 		{
-			var instanceDir = CreateInstanceDirectory(instanceName, configBaseDir);
-
 			const string instance_cfg_file_name = "Instance.cfg";
 
 			var relativeConfigFilePathName = Path.Combine(instanceName, instance_cfg_file_name);
 
 			var instanceEntry = new InstanceEntry(instanceName, siteName, relativeConfigFilePathName, "0.1");
 
+			var instanceDir = CreateInstanceDirectory(instanceName, configBaseDir);
+			var instanceCfgFilePathName = Path.Combine(instanceDir, instance_cfg_file_name);
+
 			var cfg = new TCfg();
-			cfg.Save(Path.Combine(instanceDir, instance_cfg_file_name));
+			cfg.Save(instanceCfgFilePathName);
 
 			return instanceEntry;
 		}

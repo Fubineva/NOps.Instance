@@ -80,6 +80,8 @@ namespace Fubineva.NOps.Instance
 
         public void Save(string filePathName)
         {
+            FilePathName = filePathName;
+
             var serializer = JsonSerializer.Create(s_serializerSettings);
             using (var stream = new FileStream(filePathName, FileMode.Create))
             using(var writer = new StreamWriter(stream))
