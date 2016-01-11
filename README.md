@@ -1,3 +1,7 @@
 # NOps.Instance
 
-Tooling to handle application instance configurations.
+Tooling to handle system instance configurations.
+
+*0.2 Alpha (incomplete)*
+
+License: MIT
