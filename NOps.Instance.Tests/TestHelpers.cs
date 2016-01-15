@@ -1,11 +1,14 @@
 using System.IO;
 using System.Reflection;
 
-static internal class TestHelpers
+namespace NOps.Instance.Tests
 {
-    public static string GetAppDir()
+    public static class TestHelpers
     {
-        var appPath = Assembly.GetExecutingAssembly().Location;
-        return Path.GetDirectoryName(appPath);
+        public static string GetAppDir()
+        {
+            var appPath = Assembly.GetExecutingAssembly().Location;
+            return Path.GetDirectoryName(appPath);
+        }
     }
 }

@@ -3,12 +3,12 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace Fubineva.NOps.Instance
+namespace NOps.Instance
 {
     public abstract class Config
     {
         private static readonly IConfigLoader s_cfgLoader = new ConfigLoader();
-
+        
         public static T Load<T>(string filePathName) where T : Config
         {
             var config = s_cfgLoader.Load<T>(filePathName);
@@ -29,7 +29,7 @@ namespace Fubineva.NOps.Instance
         public void Save(string filePathName)
         {
             FilePathName = filePathName;
-
+        
             s_cfgLoader.Save(this, filePathName);
         }
         

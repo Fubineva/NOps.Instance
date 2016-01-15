@@ -7,9 +7,9 @@ using System.Reflection;
 using System.Threading;
 using System.Xml.Serialization;
 
-namespace Fubineva.NOps.Instance
+namespace NOps.Instance
 {
-	// ToDo: Inherit from HashSet and use IConfig + ConfigLoader (see Migrator registry as example)
+	// ToDo: Implement IReadOnlyCollection and use IConfig + ConfigLoader (see Migrator registry as example)
 
 	[XmlRoot("InstanceRegistry")]
 	public class InstanceRegistry : Config, IList<InstanceEntry>
@@ -17,7 +17,7 @@ namespace Fubineva.NOps.Instance
 		private static Lazy<InstanceRegistry> s_current
 			= new Lazy<InstanceRegistry>(() => Config.Load<InstanceRegistry>(DetermineFilePathName()), LazyThreadSafetyMode.ExecutionAndPublication);
 
-		private IList<InstanceEntry> _entries = new List<InstanceEntry>();
+		private readonly IList<InstanceEntry> _entries = new List<InstanceEntry>();
 
 		private static string DetermineFilePathName()
 		{

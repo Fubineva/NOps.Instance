@@ -1,6 +1,6 @@
 using System.IO;
 
-namespace Fubineva.NOps.Instance
+namespace NOps.Instance
 {
     public interface IConfigLoader
     {

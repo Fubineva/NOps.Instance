@@ -1,6 +1,4 @@
-﻿using Fubineva.NOps.Instance;
-
-namespace NOps.Instance.Tests
+﻿namespace NOps.Instance.Tests
 {
     public class MyTestConfig : InstanceConfig
     {

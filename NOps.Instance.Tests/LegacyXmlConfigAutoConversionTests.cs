@@ -5,8 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Fubineva.NOps.Instance;
-
 using Newtonsoft.Json;
 
 using NUnit.Framework;

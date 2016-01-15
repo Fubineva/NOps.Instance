@@ -6,8 +6,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-using Fubineva.NOps.Instance;
-
 using NUnit.Framework;
 
 namespace NOps.Instance.Tests

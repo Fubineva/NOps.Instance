@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -11,7 +8,7 @@ using Newtonsoft.Json;
 
 using Formatting = Newtonsoft.Json.Formatting;
 
-namespace Fubineva.NOps.Instance
+namespace NOps.Instance
 {
     public class ConfigLoader : IConfigLoader
     {
@@ -81,6 +78,19 @@ namespace Fubineva.NOps.Instance
         }
 
         public void Save<T>(T config, string filePathName)
+        {
+            var mutex = new Mutex(false, "NOps.Config." + filePathName);
+            try
+            {
+                SaveInner(config, filePathName);
+            }
+            finally
+            {
+                mutex.ReleaseMutex();
+            }
+        }
+
+        private static void SaveInner<T>(T config, string filePathName)
         {
             var iConfig = config as IConfig;
             iConfig?.SetFilePathName(filePathName);

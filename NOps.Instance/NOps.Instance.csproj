@@ -7,8 +7,8 @@
     <ProjectGuid>{62825B7F-9365-4E46-992A-06C6C4871EFA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Fubineva.NOps.Instance</RootNamespace>
-    <AssemblyName>Fubineva.NOps.Instance</AssemblyName>
+    <RootNamespace>NOps.Instance</RootNamespace>
+    <AssemblyName>NOps.Instance</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

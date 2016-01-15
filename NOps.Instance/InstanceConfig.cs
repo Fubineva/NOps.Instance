@@ -2,7 +2,7 @@ using System;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
-namespace Fubineva.NOps.Instance
+namespace NOps.Instance
 {
 	public abstract class InstanceConfig : Config
 	{
