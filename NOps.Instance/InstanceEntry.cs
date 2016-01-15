@@ -36,6 +36,8 @@ namespace NOps.Instance
             Version = version;
         }
 
+        public string QualityTag;
+
         [XmlAttribute]
         public string Name;
 
