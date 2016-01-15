@@ -79,9 +79,11 @@ namespace NOps.Instance
 
         public void Save<T>(T config, string filePathName)
         {
-            var mutex = new Mutex(false, "NOps.Config." + filePathName);
+            // backslash is interpreted as visibility path, eliminate
+            var mutex = new Mutex(false, "NOps.Config." + filePathName.Replace('\\', '_'));
             try
             {
+                mutex.WaitOne(5000);
                 SaveInner(config, filePathName);
             }
             finally
