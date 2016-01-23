@@ -1,9 +1,7 @@
 using System;
-using System.Xml.Serialization;
 
 namespace NOps.Instance
 {
-    [XmlRoot("InstanceEntry")] // ToDo: Remove these attributes when removing the legacyXml option
     public class InstanceEntry
     {
         private InstanceEntry()
@@ -38,16 +36,12 @@ namespace NOps.Instance
 
         public string QualityTag;
 
-        [XmlAttribute]
         public string Name;
 
-        [XmlAttribute]
         public string SiteName;
 
-        [XmlAttribute]
         public string Config;
 
-        [XmlAttribute]
         public string Version;
         
     }

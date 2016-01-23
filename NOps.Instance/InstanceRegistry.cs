@@ -5,13 +5,13 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading;
-using System.Xml.Serialization;
+
+using NOps.Common;
 
 namespace NOps.Instance
 {
 	// ToDo: Implement IReadOnlyCollection and use IConfig + ConfigLoader (see Migrator registry as example)
 
-	[XmlRoot("InstanceRegistry")]
 	public class InstanceRegistry : Config, IList<InstanceEntry>
 	{
 		private static Lazy<InstanceRegistry> s_current

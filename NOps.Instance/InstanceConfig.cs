@@ -1,6 +1,7 @@
 using System;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
+
+using NOps.Common;
 
 namespace NOps.Instance
 {
@@ -35,7 +36,6 @@ namespace NOps.Instance
 			return config;
 		}
 		
-		[XmlIgnore] // ToDo: remove this along side the LegacyXml feature
 		[IgnoreDataMember]
 		public InstanceEntry Instance { get; private set; }
 	}
