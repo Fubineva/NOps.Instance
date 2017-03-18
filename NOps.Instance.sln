@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B92ECB73-9683-4DFA-A1ED-F7471D400888}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NOps.Common", "NOps.Common\NOps.Common\NOps.Common.csproj", "{506A65D7-DCEB-43D6-AB7A-34CBFA08ACD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOps.Instance", "NOps.Instance\NOps.Instance.csproj", "{83542346-F269-4496-809F-E97F646CF825}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NOps.Instance", "NOps.Instance\NOps.Instance.csproj", "{83542346-F269-4496-809F-E97F646CF825}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NOps.Instance.Tests", "NOps.Instance.Tests\NOps.Instance.Tests.csproj", "{2731BA92-13B7-46D2-A659-7072C9EEF18C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NOps.Instance.Tests", "NOps.Instance.Tests\NOps.Instance.Tests.csproj", "{2731BA92-13B7-46D2-A659-7072C9EEF18C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
