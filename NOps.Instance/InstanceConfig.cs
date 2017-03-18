@@ -1,7 +1,7 @@
 using System;
 using System.Runtime.Serialization;
 
-using NOps.Common;
+using NOps.Common.Configuration;
 
 namespace NOps.Instance
 {

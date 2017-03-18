@@ -7,7 +7,7 @@ namespace NOps.Instance.Tests
     {
         public static string GetAppDir()
         {
-            var appPath = Assembly.GetExecutingAssembly().Location;
+            var appPath = Assembly.GetEntryAssembly().Location;
             return Path.GetDirectoryName(appPath);
         }
     }

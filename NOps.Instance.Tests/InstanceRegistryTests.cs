@@ -60,7 +60,7 @@ namespace NOps.Instance.Tests
 
         private static string GetAppDir()
         {
-            var dir = new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath;
+            var dir = new Uri(Assembly.GetEntryAssembly().CodeBase).LocalPath;
             return Path.GetDirectoryName(dir);
         }
     }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 
-using NOps.Common;
+using NOps.Common.Configuration;
 
 namespace NOps.Instance
 {
@@ -74,7 +74,7 @@ namespace NOps.Instance
 
 		private static string ApplicationPhysicalPath()
 		{
-			return Path.GetDirectoryName(new Uri(Assembly.GetExecutingAssembly().CodeBase).LocalPath);
+			return Path.GetDirectoryName(new Uri(Assembly.GetEntryAssembly().CodeBase).LocalPath);
 		}
 		
 		public static InstanceRegistry Current
